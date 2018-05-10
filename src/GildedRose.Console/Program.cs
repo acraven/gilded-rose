@@ -25,7 +25,8 @@ namespace GildedRose.Console
                 new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
             };
 
-            new OriginalUpdateQuality().Update(items);
+//            new OriginalUpdateQuality().Update(items);
+            new CookiesMethod().Update(items);
 
             System.Console.ReadKey();
         }
