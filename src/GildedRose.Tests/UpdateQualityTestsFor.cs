@@ -9,10 +9,11 @@ namespace GildedRose.Tests
 {
    public abstract class UpdateQualityTestsFor<T> where T : IUpdateQuality, new()
    {
-      private void Act(params Item[] items)
+      private Item[] Act(params Item[] items)
       {
          var testSubject = new T();
          testSubject.Update(items);
+         return items;
       }
 
       [Theory]
@@ -24,10 +25,10 @@ namespace GildedRose.Tests
       {
          var item = new Item { Quality = quality, SellIn = sellIn };
 
-         Act(item);
+         var result = Act(item);
 
-         Assert.Equal(expectedQuality, item.Quality);
-         Assert.Equal(expectedSellIn, item.SellIn);
+         Assert.Equal(expectedQuality, result[0].Quality);
+         Assert.Equal(expectedSellIn, result[0].SellIn);
       }
 
       [Theory]
@@ -38,10 +39,10 @@ namespace GildedRose.Tests
       {
          var item = new Item { Quality = quality, SellIn = sellIn };
 
-         Act(item);
+         var result = Act(item);
 
-         Assert.Equal(expectedQuality, item.Quality);
-         Assert.Equal(expectedSellIn, item.SellIn);
+         Assert.Equal(expectedQuality, result[0].Quality);
+         Assert.Equal(expectedSellIn, result[0].SellIn);
       }
 
       [Theory]
@@ -54,10 +55,10 @@ namespace GildedRose.Tests
       {
          var item = new Item { Quality = quality, SellIn = sellIn };
 
-         Act(item);
+         var result = Act(item);
 
-         Assert.Equal(expectedQuality, item.Quality);
-         Assert.Equal(expectedSellIn, item.SellIn);
+         Assert.Equal(expectedQuality, result[0].Quality);
+         Assert.Equal(expectedSellIn, result[0].SellIn);
       }
 
       [Theory]
@@ -75,10 +76,10 @@ namespace GildedRose.Tests
       {
          var item = new Item { Name = "Aged Brie", Quality = quality, SellIn = sellIn };
 
-         Act(item);
+         var result = Act(item);
 
-         Assert.Equal(expectedQuality, item.Quality);
-         Assert.Equal(expectedSellIn, item.SellIn);
+         Assert.Equal(expectedQuality, result[0].Quality);
+         Assert.Equal(expectedSellIn, result[0].SellIn);
       }
 
       [Theory]
@@ -92,10 +93,10 @@ namespace GildedRose.Tests
       {
          var item = new Item { Name = name, Quality = quality, SellIn = sellIn };
 
-         Act(item);
+         var result = Act(item);
 
-         Assert.Equal(expectedQuality, item.Quality);
-         Assert.Equal(expectedSellIn, item.SellIn);
+         Assert.Equal(expectedQuality, result[0].Quality);
+         Assert.Equal(expectedSellIn, result[0].SellIn);
       }
 
       [Theory]
@@ -104,14 +105,15 @@ namespace GildedRose.Tests
       [InlineData(0, 1, 0, 1)]
       [InlineData(0, -1, 0, -1)]
       [InlineData(1, 1, 1, 1)]
+      [InlineData(80, 1, 80, 1)]
       public void sulfuras_never_has_to_be_sold_and_never_decreases_in_quality(int quality, int sellIn, int expectedQuality, int expectedSellIn)
       {
          var item = new Item { Name = "Sulfuras, Hand of Ragnaros", Quality = quality, SellIn = sellIn };
 
-         Act(item);
+         var result = Act(item);
 
-         Assert.Equal(expectedQuality, item.Quality);
-         Assert.Equal(expectedSellIn, item.SellIn);
+         Assert.Equal(expectedQuality, result[0].Quality);
+         Assert.Equal(expectedSellIn, result[0].SellIn);
       }
 
       [Theory]
@@ -126,10 +128,24 @@ namespace GildedRose.Tests
       {
          var item = new Item { Name = "Backstage passes to a TAFKAL80ETC concert", Quality = quality, SellIn = sellIn };
 
-         Act(item);
+         var result = Act(item);
 
-         Assert.Equal(expectedQuality, item.Quality);
-         Assert.Equal(expectedSellIn, item.SellIn);
+         Assert.Equal(expectedQuality, result[0].Quality);
+         Assert.Equal(expectedSellIn, result[0].SellIn);
+      }
+
+      [Fact]
+      public void should_lower_values_of_multiple_items()
+      {
+         var item1 = new Item { Quality = 5, SellIn = 7 };
+         var item2 = new Item { Quality = 3, SellIn = 11 };
+
+         var result = Act(item1, item2);
+
+         Assert.Equal(4, result[0].Quality);
+         Assert.Equal(6, result[0].SellIn);
+         Assert.Equal(2, result[1].Quality);
+         Assert.Equal(10, result[1].SellIn);
       }
    }
 }
