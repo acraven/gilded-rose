@@ -10,9 +10,17 @@ namespace GildedRose.UpdateQuality
 
    public class DepreciatingUpdateBehaviour : IUpdateBehaviour
    {
+      private readonly int _rate;
+
+      public DepreciatingUpdateBehaviour(int rate = 1)
+
+      {
+         _rate = rate;
+      }
+
       public (int, int) Update(int quality, int sellIn)
       {
-         var depreciation = sellIn <= 0 ? 2 : 1;
+         var depreciation = sellIn <= 0 ? (_rate * 2) : _rate;
 
          return (Math.Max(quality - depreciation, 0), sellIn - 1);
       }
@@ -77,6 +85,10 @@ namespace GildedRose.UpdateQuality
          if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
          {
             return new ExpontialAppreciatingUpdateBehaviour();
+         }
+         if (item.Name == "Conjured")
+         {
+            return new DepreciatingUpdateBehaviour(rate: 2);
          }
          return new DepreciatingUpdateBehaviour();
       }
