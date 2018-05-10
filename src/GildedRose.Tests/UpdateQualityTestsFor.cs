@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 using GildedRose.UpdateQuality;
 
@@ -100,12 +96,9 @@ namespace GildedRose.Tests
       }
 
       [Theory]
-      [InlineData(0, 0, 0, 0)]
-      [InlineData(1, 0, 1, 0)]
-      [InlineData(0, 1, 0, 1)]
-      [InlineData(0, -1, 0, -1)]
-      [InlineData(1, 1, 1, 1)]
+      [InlineData(80, 0, 80, 0)]
       [InlineData(80, 1, 80, 1)]
+      [InlineData(80, -1, 80, -1)]
       public void sulfuras_never_has_to_be_sold_and_never_decreases_in_quality(int quality, int sellIn, int expectedQuality, int expectedSellIn)
       {
          var item = new Item { Name = "Sulfuras, Hand of Ragnaros", Quality = quality, SellIn = sellIn };
@@ -147,5 +140,33 @@ namespace GildedRose.Tests
          Assert.Equal(2, result[1].Quality);
          Assert.Equal(10, result[1].SellIn);
       }
-   }
+
+       [Theory]
+       [InlineData(0, 0, 0, -1)]
+       [InlineData(1, 0, 0, -1)]
+       [InlineData(4, 0, 0, -1)]
+       [InlineData(5, 0, 1, -1)]
+       [InlineData(0, -1, 0, -2)]
+       [InlineData(0, 1, 0, 0)]
+       [InlineData(1, 1, 0, 0)]
+       [InlineData(2, 1, 0, 0)]
+       [InlineData(3, 1, 1, 0)]
+       [InlineData(4, 1, 2, 0)]
+       [InlineData(5, 1, 3, 0)]
+       [InlineData(5, 2, 3, 1)]
+       public void conjured_items_degrade_in_quality_twice_as_fast(int quality, int sellIn, int expectedQuality, int expectedSellIn)
+       {
+           if (typeof(T) == typeof(OriginalUpdateQuality))
+           {
+               return;
+           }
+
+           var item = new Item { Name = "Conjured", Quality = quality, SellIn = sellIn };
+
+           var result = Act(item);
+
+           Assert.Equal(expectedQuality, result[0].Quality);
+           Assert.Equal(expectedSellIn, result[0].SellIn);
+       }
+    }
 }
