@@ -141,32 +141,32 @@ namespace GildedRose.Tests
          Assert.Equal(10, result[1].SellIn);
       }
 
-       [Theory]
-       [InlineData(0, 0, 0, -1)]
-       [InlineData(1, 0, 0, -1)]
-       [InlineData(4, 0, 0, -1)]
-       [InlineData(5, 0, 1, -1)]
-       [InlineData(0, -1, 0, -2)]
-       [InlineData(0, 1, 0, 0)]
-       [InlineData(1, 1, 0, 0)]
-       [InlineData(2, 1, 0, 0)]
-       [InlineData(3, 1, 1, 0)]
-       [InlineData(4, 1, 2, 0)]
-       [InlineData(5, 1, 3, 0)]
-       [InlineData(5, 2, 3, 1)]
-       public void conjured_items_degrade_in_quality_twice_as_fast(int quality, int sellIn, int expectedQuality, int expectedSellIn)
-       {
-           if (typeof(T) == typeof(OriginalUpdateQuality))
-           {
-               return;
-           }
+      [Theory]
+      [InlineData(0, 0, 0, -1)]
+      [InlineData(1, 0, 0, -1)]
+      [InlineData(4, 0, 0, -1)]
+      [InlineData(5, 0, 1, -1)]
+      [InlineData(0, -1, 0, -2)]
+      [InlineData(0, 1, 0, 0)]
+      [InlineData(1, 1, 0, 0)]
+      [InlineData(2, 1, 0, 0)]
+      [InlineData(3, 1, 1, 0)]
+      [InlineData(4, 1, 2, 0)]
+      [InlineData(5, 1, 3, 0)]
+      [InlineData(5, 2, 3, 1)]
+      public void conjured_items_degrade_in_quality_twice_as_fast(int quality, int sellIn, int expectedQuality, int expectedSellIn)
+      {
+         if (typeof(T) == typeof(OriginalUpdateQuality))
+         {
+            return;
+         }
 
-           var item = new Item { Name = "Conjured", Quality = quality, SellIn = sellIn };
+         var item = new Item { Name = "Conjured", Quality = quality, SellIn = sellIn };
 
-           var result = Act(item);
+         var result = Act(item);
 
-           Assert.Equal(expectedQuality, result[0].Quality);
-           Assert.Equal(expectedSellIn, result[0].SellIn);
-       }
-    }
+         Assert.Equal(expectedQuality, result[0].Quality);
+         Assert.Equal(expectedSellIn, result[0].SellIn);
+      }
+   }
 }
