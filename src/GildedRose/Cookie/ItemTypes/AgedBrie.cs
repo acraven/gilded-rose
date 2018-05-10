@@ -7,7 +7,7 @@
 
         public override void AgeByOneDay()
         {
-            IncreaseQualityBy(1);
+            IncreaseQualityBy(PastTheSellByDate ? 2 : 1);
             ReduceSellInByOne();
         }
     }

@@ -20,13 +20,13 @@
                 {
                     IncreaseQualityBy(SellByDateWithin(FiveDays) ? 3 : 2);
                 }
-
-                ReduceSellInByOne();
             }
             else
             {
-                base.AgeByOneDay();
+                IncreaseQualityBy(1);
             }
+
+            ReduceSellInByOne();
         }
     }
 }

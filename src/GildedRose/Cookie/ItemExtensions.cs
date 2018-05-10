@@ -21,6 +21,8 @@ namespace GildedRose.Cookie
         {
             var (name, sellIn, quality) = item;
 
+            name = name ?? string.Empty;
+
             if (NameStartsWith(name, AgedBrie))
                 return new AgedBrie(name, sellIn, quality);
 

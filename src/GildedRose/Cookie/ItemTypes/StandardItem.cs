@@ -64,7 +64,7 @@
 
         protected bool SellByDateWithin(int days) => SellIn <= days;
 
-        protected bool PastTheSellByDate => SellIn < 0;
+        protected bool PastTheSellByDate => SellIn <= 0;
 
         protected void DecreaseQualityBy(int amountToDecrease) => Quality = Quality - amountToDecrease;
 
