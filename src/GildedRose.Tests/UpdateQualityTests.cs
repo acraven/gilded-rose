@@ -1,14 +1,9 @@
 using System;
-using Xunit;
+using GildedRose.UpdateQuality;
 
 namespace GildedRose.Tests
 {
-   public class UpdateQualityTests
+   public class OriginalUpdateQualityTests: UpdateQualityTestsFor<OriginalUpdateQuality>
    {
-      [Fact]
-      public void Test1()
-      {
-         Assert.Equal(true, true);
-      }
    }
 }
