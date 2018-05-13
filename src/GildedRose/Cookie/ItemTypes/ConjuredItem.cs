@@ -2,23 +2,14 @@
 {
     public class ConjuredItem : StandardItem, IQualityItem
     {
-        public ConjuredItem(string name, int sellIn, int quality) : base(name, sellIn, quality)
-        { }
+        private const int RateOfDecayMultiplier = 2;
 
-        public override void AgeByOneDay()
-        {
-            DecreaseQualityBy(TwiceTheStandardDegregationAmount);
-            ReduceSellInByOne();
-        }
+        public ConjuredItem(string name, int sellIn, int quality) 
+            : base(name, sellIn, quality, RateOfDecay(), ExpiredRateOfDacay())
+        {}
 
-        private int TwiceTheStandardDegregationAmount
-        {
-            get
-            {
-                return (PastTheSellByDate
-                           ? StandardRateOfQualityReductionWhenOutOfDate
-                           : StandardRateOfQualityReductionWhenInDate) * 2;
-            }
-        }
+        private static int ExpiredRateOfDacay() => DefaultRateOfDecayWhenExpired * RateOfDecayMultiplier;
+
+        private static int RateOfDecay() => DefaultRateOfDecayWhenInDate * RateOfDecayMultiplier;
     }
 }

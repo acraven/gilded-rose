@@ -3,8 +3,8 @@ using GildedRose.UpdateQuality;
 
 namespace GildedRose.Tests
 {
-   public abstract class UpdateQualityTestsFor<T> where T : IUpdateQuality, new()
-   {
+    public abstract class UpdateQualityTestsFor<T> where T : IUpdateQuality, new()
+    {
       private Item[] Act(params Item[] items)
       {
          var testSubject = new T();

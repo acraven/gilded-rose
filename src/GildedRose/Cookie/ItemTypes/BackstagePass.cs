@@ -14,11 +14,11 @@
             {
                 if (PastTheSellByDate)
                 {
-                    SetQualityToZero();
+                    SetQualityToMinimum();
                 }
                 else
                 {
-                    IncreaseQualityBy(SellByDateWithin(FiveDays) ? 3 : 2);
+                    IncreaseQualityBy(QualityIncreaseRate());
                 }
             }
             else
@@ -26,7 +26,12 @@
                 IncreaseQualityBy(1);
             }
 
-            ReduceSellInByOne();
+            ReduceSellIn();
+        }
+
+        private int QualityIncreaseRate()
+        {
+            return SellByDateWithin(FiveDays) ? 3 : 2;
         }
     }
 }

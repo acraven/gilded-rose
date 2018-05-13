@@ -1,29 +1,19 @@
 ﻿namespace GildedRose.Cookie.ItemTypes
 {
-    public class SulfurasItem : IQualityItem
+    public class SulfurasItem : StandardItem, IQualityItem
     {
-        private const int FixedQuality = 80;
+        public SulfurasItem(string name, int sellIn, int quality) 
+            : base(name, sellIn, SulfurasQuality(quality))
+        {}
 
-        public SulfurasItem(string name, int sellIn, int quality = FixedQuality) 
+        private static Quality SulfurasQuality(int quality)
         {
-            Name = name;
-            SellIn = sellIn;
+            return new Quality(quality, quality, quality);
         }
 
-        public void AgeByOneDay()
+        public override void AgeByOneDay()
         {
-            //do nothing...on purpose!
+//            do nothing...on purpose!
         }
-
-        public Item ToItem()
-        {
-            return new Item {Name = Name, Quality = Quality, SellIn = SellIn};
-        }
-
-        public string Name { get; }
-
-        public int SellIn { get; }
-
-        public int Quality => FixedQuality;
     }
 }

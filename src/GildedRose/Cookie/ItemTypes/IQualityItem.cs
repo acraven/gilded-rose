@@ -9,7 +9,5 @@
         int Quality { get; }
 
         void AgeByOneDay();
-
-        Item ToItem();
     }
 }

@@ -12,27 +12,21 @@ namespace GildedRose.Cookie
             quality = item.Quality;
         }
 
-        private const string AgedBrie = "aged brie";
-        private const string BackstagePasses = "backstage";
-        private const string Conjured = "conjured";
-        private const string Sulfuras = "sulfuras";
-
         public static IQualityItem ToQualityItem(this Item item)
         {
             var (name, sellIn, quality) = item;
-
             name = name ?? string.Empty;
 
-            if (NameStartsWith(name, AgedBrie))
+            if (NameStartsWith(name, "aged brie"))
                 return new AgedBrie(name, sellIn, quality);
 
-            if (NameStartsWith(name, Conjured))
+            if (NameStartsWith(name, "conjured"))
                 return new ConjuredItem(name, sellIn, quality);
 
-            if (NameStartsWith(name, Sulfuras))
+            if (NameStartsWith(name, "sulfuras"))
                 return new SulfurasItem(name, sellIn, quality);
 
-            if (NameStartsWith(name, BackstagePasses))
+            if (NameStartsWith(name, "backstage"))
                 return new BackstagePass(name, sellIn, quality);
 
             return new StandardItem(name, sellIn, quality);

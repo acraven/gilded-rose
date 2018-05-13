@@ -14,7 +14,6 @@ namespace GildedRose.UpdateQuality
                 {
                     var qualityItem = items[i].ToQualityItem();
                     qualityItem.AgeByOneDay();
-
                     items[i] = qualityItem.ToItem();
 
                     Console.WriteLine(

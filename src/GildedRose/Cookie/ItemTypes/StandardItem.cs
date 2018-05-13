@@ -2,74 +2,54 @@
 {
     public class StandardItem : IQualityItem
     {
-        private const int MinimumQuality = 0;
-        private const int MaximumQuality = 50;
-        protected const int StandardRateOfQualityReductionWhenInDate = 1;
-        protected const int StandardRateOfQualityReductionWhenOutOfDate = 2;
-        private int _quality;
+        private SellIn _sellIn;
+        private Quality _quality;
+        protected const int DefaultRateOfDecayWhenInDate = 1;
+        protected const int DefaultRateOfDecayWhenExpired = 2;
 
-        public StandardItem(string name, int sellIn, int quality)
+        public StandardItem(string name, int sellIn, Quality quality, 
+            int rateOfDecayWhenInDate = DefaultRateOfDecayWhenInDate, 
+            int rateOfDacayWhenExpired = DefaultRateOfDecayWhenExpired)
         {
             Name = name;
-            SellIn = sellIn;
-            Quality = quality;
+            _sellIn = sellIn;
+            _quality = quality;
+            RateOfDecayWhenInDate = rateOfDecayWhenInDate;
+            RateOfDecayWhenExpired = rateOfDacayWhenExpired;
         }
 
         public virtual void AgeByOneDay()
         {
-            DecreaseQualityBy(StandardDegregationAmount);
-            ReduceSellInByOne();
+            DecreaseQualityBy(RateOfDecay);
+            ReduceSellIn();
         }
 
-        private int StandardDegregationAmount
-        {
-            get
-            {
-                return PastTheSellByDate
-                    ? StandardRateOfQualityReductionWhenOutOfDate
-                    : StandardRateOfQualityReductionWhenInDate;
-            }
-        }
+        protected void SetQualityToMinimum() => _quality = _quality.SetToMinimum();
+
+        protected void DecreaseQualityBy(int amount) => _quality = _quality.DecreaseBy(amount);
+
+        protected void IncreaseQualityBy(int amount) => _quality = _quality.IncreaseBy(amount);
+
+        protected void ReduceSellIn() => _sellIn = _sellIn.AgeByOneDay();
+
+        protected bool SellByDateWithin(int days) => _sellIn.SellByDateWithin(days);
+
+        private int RateOfDecay => PastTheSellByDate ? RateOfDecayWhenExpired : RateOfDecayWhenInDate;
 
         public string Name { get; }
 
-        public int SellIn { get; private set; }
+        public int SellIn => _sellIn;
 
         public int Quality
         {
             get => _quality;
-            set
-            {
-                if (value <= MinimumQuality)
-                {
-                    _quality = MinimumQuality;
-                }
-                else if (value >= MaximumQuality)
-                {
-                    _quality = MaximumQuality;
-                }
-                else
-                {
-                    _quality = value;
-                }
-            }
+            set => _quality = value;
         }
 
-        public Item ToItem()
-        {
-            return new Item { Name = Name, Quality = Quality, SellIn = SellIn };
-        }
+        protected int RateOfDecayWhenInDate { get; }
 
-        protected void SetQualityToZero() => Quality = MinimumQuality;
+        protected int RateOfDecayWhenExpired { get; }
 
-        protected bool SellByDateWithin(int days) => SellIn <= days;
-
-        protected bool PastTheSellByDate => SellIn <= 0;
-
-        protected void DecreaseQualityBy(int amountToDecrease) => Quality = Quality - amountToDecrease;
-
-        protected void IncreaseQualityBy(int increaseInQuality) => Quality = Quality + increaseInQuality;
-
-        protected void ReduceSellInByOne() => SellIn--;
+        protected bool PastTheSellByDate => _sellIn.PastTheSellByDate;
     }
 }
