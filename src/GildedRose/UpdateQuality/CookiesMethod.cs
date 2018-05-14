@@ -13,8 +13,9 @@ namespace GildedRose.UpdateQuality
                 for (var i = 0; i < items.Count; i++)
                 {
                     var qualityItem = items[i].ToQualityItem();
-                    qualityItem.AgeByOneDay();
-                    items[i] = qualityItem.ToItem();
+                    var updatedItem = qualityItem.UpdateQuality();
+                    updatedItem = updatedItem.ReduceSellIn();
+                    items[i] = updatedItem.ToItem();
 
                     Console.WriteLine(
                         $"{qualityItem.Name}, SellIn: {qualityItem.SellIn}, Quality:{qualityItem.Quality}");

@@ -5,12 +5,11 @@
         public AgedBrie(string name, int sellIn, int quality) : base(name, sellIn, quality)
         {}
 
-        public override void AgeByOneDay()
+        public override IQualityItem UpdateQuality()
         {
-            IncreaseQualityBy(QualityIncreaseRate());
-            ReduceSellIn();
+            return IncreaseQualityBy(QualityIncreaseRate());
         }
-
+        
         private int QualityIncreaseRate()
         {
             return PastTheSellByDate ? 2 : 1;

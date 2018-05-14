@@ -8,25 +8,19 @@
         public BackstagePass(string name, int sellIn, int quality) : base(name, sellIn, quality)
         {}
 
-        public override void AgeByOneDay()
+        public override IQualityItem UpdateQuality()
         {
             if (SellByDateWithin(TenDays))
             {
                 if (PastTheSellByDate)
                 {
-                    SetQualityToMinimum();
+                    return SetQualityToMinimum();
                 }
-                else
-                {
-                    IncreaseQualityBy(QualityIncreaseRate());
-                }
-            }
-            else
-            {
-                IncreaseQualityBy(1);
+
+                return IncreaseQualityBy(QualityIncreaseRate());
             }
 
-            ReduceSellIn();
+            return IncreaseQualityBy(1);
         }
 
         private int QualityIncreaseRate()

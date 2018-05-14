@@ -2,12 +2,12 @@
 {
     public class StandardItem : IQualityItem
     {
-        private SellIn _sellIn;
-        private Quality _quality;
+        private readonly SellIn _sellIn;
+        private readonly Quality _quality;
         protected const int DefaultRateOfDecayWhenInDate = 1;
         protected const int DefaultRateOfDecayWhenExpired = 2;
 
-        public StandardItem(string name, int sellIn, Quality quality, 
+        public StandardItem(string name, int sellIn, int quality, 
             int rateOfDecayWhenInDate = DefaultRateOfDecayWhenInDate, 
             int rateOfDacayWhenExpired = DefaultRateOfDecayWhenExpired)
         {
@@ -18,19 +18,18 @@
             RateOfDecayWhenExpired = rateOfDacayWhenExpired;
         }
 
-        public virtual void AgeByOneDay()
+        public virtual IQualityItem UpdateQuality()
         {
-            DecreaseQualityBy(RateOfDecay);
-            ReduceSellIn();
+            return DecreaseQualityBy(RateOfDecay);
         }
 
-        protected void SetQualityToMinimum() => _quality = _quality.SetToMinimum();
+        protected IQualityItem SetQualityToMinimum() => new StandardItem(Name, _sellIn, _quality.SetToMinimum(), rateOfDecayWhenInDate: RateOfDecayWhenInDate, rateOfDacayWhenExpired: RateOfDecayWhenExpired);
 
-        protected void DecreaseQualityBy(int amount) => _quality = _quality.DecreaseBy(amount);
+        protected IQualityItem DecreaseQualityBy(int amount) => new StandardItem(Name, _sellIn, _quality.DecreaseBy(amount), RateOfDecayWhenInDate, RateOfDecayWhenExpired);
 
-        protected void IncreaseQualityBy(int amount) => _quality = _quality.IncreaseBy(amount);
+        protected IQualityItem IncreaseQualityBy(int amount) => new StandardItem(Name, _sellIn, _quality.IncreaseBy(amount), RateOfDecayWhenInDate, RateOfDecayWhenExpired);
 
-        protected void ReduceSellIn() => _sellIn = _sellIn.AgeByOneDay();
+        public IQualityItem ReduceSellIn() => new StandardItem(Name, _sellIn.AgeByOneDay(), Quality, RateOfDecayWhenInDate, RateOfDecayWhenExpired);
 
         protected bool SellByDateWithin(int days) => _sellIn.SellByDateWithin(days);
 
@@ -40,11 +39,7 @@
 
         public int SellIn => _sellIn;
 
-        public int Quality
-        {
-            get => _quality;
-            set => _quality = value;
-        }
+        public int Quality => _quality;
 
         protected int RateOfDecayWhenInDate { get; }
 

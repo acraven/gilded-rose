@@ -8,6 +8,8 @@
 
         int Quality { get; }
 
-        void AgeByOneDay();
+        IQualityItem UpdateQuality();
+
+        IQualityItem ReduceSellIn();
     }
 }

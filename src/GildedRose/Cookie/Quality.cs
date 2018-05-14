@@ -41,10 +41,5 @@
         {
             return new Quality(quality);
         }
-
-        //public static explicit operator Quality(int quality)
-        //{
-        //    return new Quality(quality);
-        //}
     }
 }
