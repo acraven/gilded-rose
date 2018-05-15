@@ -2,19 +2,13 @@
 {
     public class SulfurasItem : IQualityItem
     {
-        private readonly Quality _quality;
         private readonly SellIn _sellIn;
 
         public SulfurasItem(string name, int sellIn, int quality)
         {
-            _quality = SulfurasQuality(quality);
+            Quality = quality;
             _sellIn = sellIn;
             Name = name;
-        }
-
-        private static Quality SulfurasQuality(int quality)
-        {
-            return new Quality(quality, quality, quality);
         }
 
         public IQualityItem UpdateQuality()
@@ -31,7 +25,7 @@
 
         public string Name { get; }
 
-        public int Quality => _quality;
+        public int Quality { get; }
 
         public int SellIn => _sellIn;
     }

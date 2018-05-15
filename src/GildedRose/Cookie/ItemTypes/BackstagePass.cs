@@ -17,13 +17,13 @@
                     return SetQualityToMinimum();
                 }
 
-                return IncreaseQualityBy(QualityIncreaseRate());
+                return IncreaseQualityBy(QualityAppriciation());
             }
 
             return IncreaseQualityBy(1);
         }
 
-        private int QualityIncreaseRate()
+        private int QualityAppriciation()
         {
             return SellByDateWithin(FiveDays) ? 3 : 2;
         }

@@ -7,10 +7,10 @@
 
         public override IQualityItem UpdateQuality()
         {
-            return IncreaseQualityBy(QualityIncreaseRate());
+            return IncreaseQualityBy(QualityAppriciation());
         }
-        
-        private int QualityIncreaseRate()
+
+        private int QualityAppriciation()
         {
             return PastTheSellByDate ? 2 : 1;
         }
